@@ -138,6 +138,18 @@ The `kubectl` command is installed.
 
         If there are BGP Peering sessions that are not ESTABLISHED on either switch, refer to [Check BGP Status and Reset Sessions](../network/metallb_bgp/Check_BGP_Status_and_Reset_Sessions.md).
 
+    1. Check for components that are in an failed state in CFS.
+
+        Components can be found by running the following command:
+        ```bash
+         ncn-m001# cray cfs components list --status failed
+        ```
+
+        For any NCN components found, reset the error count to 0.  Each component will also have to be disabled in CFS in order to not immediately trigger configuration.  The components will be re-enabled when they reboot.
+        ```bash
+         ncn-m001# cray cfs components update <xname> --error-count 0 --enabled false
+        ```
+
 ### NCN Rolling Reboot
 
 Before rebooting NCNs:
